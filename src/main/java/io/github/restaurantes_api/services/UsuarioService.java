@@ -25,8 +25,7 @@ public class UsuarioService {
         String url = usuariosApiUrl + "/" + id;
         try {
             UsuarioResponse usuario = restTemplate.getForObject(url, UsuarioResponse.class);
-            System.out.println(usuario.getPerfil());
-            System.out.println(usuario.isAutenticado());
+
             if (usuario == null || !usuario.isAutenticado() || usuario.getPerfil() != Perfil.PROPRIETARIO) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autorizado");
             }
