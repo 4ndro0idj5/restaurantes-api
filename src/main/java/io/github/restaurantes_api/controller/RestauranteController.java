@@ -29,7 +29,7 @@ public class RestauranteController {
     public ResponseEntity<RestauranteResponse> cadastrar(@RequestBody RestauranteRequest request) {
 
         UsuarioResponse usuario = usuarioService.buscarUsuarioPorId(request.getProprietarioId());
-
+        System.out.println(usuario);
         usuarioService.validarUsuarioAutenticadoEProprietario(request.getProprietarioId());
         Restaurante restaurante = restauranteService.cadastrar(request);
 

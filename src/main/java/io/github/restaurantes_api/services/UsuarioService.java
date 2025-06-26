@@ -1,6 +1,7 @@
 package io.github.restaurantes_api.services;
 
 import io.github.restaurantes_api.dto.UsuarioResponse;
+import io.github.restaurantes_api.entities.Perfil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,9 @@ public class UsuarioService {
         String url = usuariosApiUrl + "/" + id;
         try {
             UsuarioResponse usuario = restTemplate.getForObject(url, UsuarioResponse.class);
-            if (usuario == null || !usuario.isAutenticado() || !"PROPRIETARIO".equalsIgnoreCase(usuario.getPerfil())) {
+            System.out.println(usuario.getPerfil());
+            System.out.println(usuario.isAutenticado());
+            if (usuario == null || !usuario.isAutenticado() || usuario.getPerfil() != Perfil.PROPRIETARIO) {
                 throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autorizado");
             }
         } catch (HttpClientErrorException e) {
