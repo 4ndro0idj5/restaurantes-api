@@ -8,7 +8,10 @@ import io.github.restaurantes_api.mapper.ItemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.github.restaurantes_api.respositories.ItemRepository;
 import io.github.restaurantes_api.respositories.RestauranteRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +27,7 @@ public class ItemService {
     private ItemMapper itemMapper;
     @Autowired
     private UsuarioService usuarioService;
+
 
     public ItemDTO cadastrarItem(Long restauranteId, ItemDTO dto) {
 
@@ -53,7 +57,15 @@ public class ItemService {
                 .toList();
     }
 
+    public Optional<ItemDTO> buscarPorId(Long id, Long restauranteId) {
+        Restaurante restaurante = restauranteRepository.findById(restauranteId)
+                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
 
+        UsuarioResponse usuario = usuarioService.buscarUsuarioPorId(restaurante.getProprietarioId());
 
+        usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
 
+        return itemRepository.findById(id)
+                .map(itemMapper::toItemDTO);
+    }
 }
