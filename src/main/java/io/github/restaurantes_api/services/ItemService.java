@@ -44,6 +44,15 @@ public class ItemService {
         return itemMapper.toItemDTO(salvo);
     }
 
+    public List<ItemDTO> listarItensPorRestaurante(Long restauranteId) {
+        Restaurante restaurante = restauranteRepository.findById(restauranteId)
+                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+        return itemRepository.findByRestaurante(restaurante)
+                .stream()
+                .map(itemMapper::toItemDTO)
+                .toList();
+    }
+
 
 
 
