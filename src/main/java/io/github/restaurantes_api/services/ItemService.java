@@ -8,10 +8,7 @@ import io.github.restaurantes_api.mapper.ItemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.github.restaurantes_api.respositories.ItemRepository;
 import io.github.restaurantes_api.respositories.RestauranteRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
