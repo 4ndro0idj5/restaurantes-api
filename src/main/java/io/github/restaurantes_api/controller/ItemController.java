@@ -27,5 +27,12 @@ public class ItemController {
         List<ItemDTO> itens = itemService.listarItensPorRestaurante(restauranteId);
         return ResponseEntity.ok(itens);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ItemDTO> buscarPorId(@PathVariable Long id, @PathVariable Long restauranteId) {
+        return itemService.buscarPorId(id, restauranteId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
 

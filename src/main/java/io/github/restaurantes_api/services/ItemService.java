@@ -25,6 +25,7 @@ public class ItemService {
     @Autowired
     private UsuarioService usuarioService;
 
+
     public ItemDTO cadastrarItem(Long restauranteId, ItemDTO dto) {
 
         UsuarioResponse usuario = usuarioService.buscarUsuarioPorId(dto.getProprietarioId());
@@ -53,7 +54,15 @@ public class ItemService {
                 .toList();
     }
 
+    public Optional<ItemDTO> buscarPorId(Long id, Long restauranteId) {
+        Restaurante restaurante = restauranteRepository.findById(restauranteId)
+                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
 
+        UsuarioResponse usuario = usuarioService.buscarUsuarioPorId(restaurante.getProprietarioId());
 
+        usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
 
+        return itemRepository.findById(id)
+                .map(itemMapper::toItemDTO);
+    }
 }

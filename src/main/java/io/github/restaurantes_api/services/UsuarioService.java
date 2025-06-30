@@ -34,6 +34,21 @@ public class UsuarioService {
         }
     }
 
+
+    public void validarUsuarioAutenticado(Long id) {
+        String url = usuariosApiUrl + "/" + id;
+        try {
+            UsuarioResponse usuario = restTemplate.getForObject(url, UsuarioResponse.class);
+
+            if (usuario == null || !usuario.isAutenticado()) {
+                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autenticado");
+            }
+        } catch (HttpClientErrorException e) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não encontrado");
+        }
+    }
+
+
     public UsuarioResponse buscarUsuarioPorId(Long id) {
         String url = usuariosApiUrl + "/" + id;
         try {
