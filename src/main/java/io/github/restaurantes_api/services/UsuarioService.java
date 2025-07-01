@@ -22,40 +22,35 @@ public class UsuarioService {
     }
 
     public void validarUsuarioAutenticadoEProprietario(Long id) {
-        String url = usuariosApiUrl + "/" + id;
-        try {
-            UsuarioResponse usuario = restTemplate.getForObject(url, UsuarioResponse.class);
+        UsuarioResponse usuario = obterUsuarioOuErro(id);
 
-            if (usuario == null || !usuario.isAutenticado() || usuario.getPerfil() != Perfil.PROPRIETARIO) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autorizado");
-            }
-        } catch (HttpClientErrorException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não encontrado");
+        if (!usuario.isAutenticado() || usuario.getPerfil() != Perfil.PROPRIETARIO) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autorizado");
         }
     }
-
 
     public void validarUsuarioAutenticado(Long id) {
+        UsuarioResponse usuario = obterUsuarioOuErro(id);
+
+        if (!usuario.isAutenticado()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autenticado");
+        }
+    }
+
+    public UsuarioResponse buscarUsuarioPorId(Long id) {
+        return obterUsuarioOuErro(id);
+    }
+
+    private UsuarioResponse obterUsuarioOuErro(Long id) {
         String url = usuariosApiUrl + "/" + id;
         try {
             UsuarioResponse usuario = restTemplate.getForObject(url, UsuarioResponse.class);
-
-            if (usuario == null || !usuario.isAutenticado()) {
-                throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autenticado");
+            if (usuario == null) {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não encontrado");
             }
+            return usuario;
         } catch (HttpClientErrorException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não encontrado");
         }
     }
-
-
-    public UsuarioResponse buscarUsuarioPorId(Long id) {
-        String url = usuariosApiUrl + "/" + id;
-        try {
-            return restTemplate.getForObject(url, UsuarioResponse.class);
-        } catch (HttpClientErrorException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não encontrado");
-        }
-    }
-
 }
