@@ -7,7 +7,10 @@ import io.github.restaurantes_api.mapper.RestauranteMapper;
 import io.github.restaurantes_api.dto.RestauranteRequest;
 import io.github.restaurantes_api.respositories.RestauranteRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -38,5 +41,13 @@ public class RestauranteService {
 
         return restauranteMapper.toResponseDTO(restaurante);
     }
+
+    public void excluir(Long id) {
+        Restaurante restaurante = restauranteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+
+        restauranteRepository.delete(restaurante);
+    }
+
 }
 

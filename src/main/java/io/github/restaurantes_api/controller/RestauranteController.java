@@ -3,7 +3,6 @@ package io.github.restaurantes_api.controller;
 import io.github.restaurantes_api.dto.RestauranteRequest;
 import io.github.restaurantes_api.dto.RestauranteResponse;
 import io.github.restaurantes_api.services.RestauranteService;
-import io.github.restaurantes_api.services.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import java.util.List;
 public class RestauranteController {
 
     private final RestauranteService restauranteService;
-    private final UsuarioService usuarioService;
 
 
     @PostMapping
@@ -37,4 +35,11 @@ public class RestauranteController {
     public ResponseEntity<RestauranteResponse> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(restauranteService.buscarPorId(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        restauranteService.excluir(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
