@@ -21,15 +21,9 @@ public class Restaurante {
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false, unique = true)
-    private String cnpj;
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
-
-    @Column(nullable = false)
-    private String telefone;
 
     @Column(nullable = false)
     private String horarioFuncionamento;

@@ -11,9 +11,7 @@ public class RestauranteMapper {
 
         return Restaurante.builder()
                 .nome(dto.getNome())
-                .telefone(dto.getTelefone())
                 .categoria(dto.getCategoria())
-                .cnpj(dto.getCnpj())
                 .horarioFuncionamento(dto.getHorarioFuncionamento())
                 .proprietarioId(dto.getProprietarioId())
                 .endereco(Endereco.builder()
