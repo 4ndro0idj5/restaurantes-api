@@ -31,5 +31,12 @@ public class RestauranteService {
                 .map(restauranteMapper::toResponseDTO)
                 .toList();
     }
+
+    public RestauranteResponse buscarPorId(Long id) {
+        Restaurante restaurante = restauranteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+
+        return restauranteMapper.toResponseDTO(restaurante);
+    }
 }
 

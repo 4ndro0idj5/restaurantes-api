@@ -32,4 +32,9 @@ public class RestauranteController {
     public ResponseEntity<List<RestauranteResponse>> listar() {
         return ResponseEntity.ok(restauranteService.listarTodos());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RestauranteResponse> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(restauranteService.buscarPorId(id));
+    }
 }
