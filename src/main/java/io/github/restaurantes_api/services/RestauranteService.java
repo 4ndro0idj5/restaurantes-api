@@ -14,10 +14,11 @@ public class RestauranteService {
 
     private final RestauranteMapper restauranteMapper;
     private final RestauranteRepository restauranteRepository;
+    private final UsuarioService usuarioService;
 
     public Restaurante cadastrar(RestauranteRequest request) {
+        usuarioService.validarUsuarioAutenticadoEProprietario(request.getProprietarioId());
         Restaurante restaurante = restauranteRepository.save(restauranteMapper.fromDTO(request));
-
         return restaurante;
     }
 }

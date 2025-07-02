@@ -37,9 +37,6 @@ public class UsuarioService {
         }
     }
 
-    public UsuarioResponse buscarUsuarioPorId(Long id) {
-        return obterUsuarioOuErro(id);
-    }
 
     private UsuarioResponse obterUsuarioOuErro(Long id) {
         String url = usuariosApiUrl + "/" + id;

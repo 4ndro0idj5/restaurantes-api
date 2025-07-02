@@ -1,7 +1,6 @@
 package io.github.restaurantes_api.services;
 
 import io.github.restaurantes_api.dto.ItemDTO;
-import io.github.restaurantes_api.dto.UsuarioResponse;
 import io.github.restaurantes_api.entities.Item;
 import io.github.restaurantes_api.entities.Restaurante;
 import io.github.restaurantes_api.mapper.ItemMapper;
@@ -28,7 +27,7 @@ public class ItemService {
 
     public ItemDTO cadastrarItem(Long restauranteId, ItemDTO dto) {
 
-        UsuarioResponse usuario = usuarioService.buscarUsuarioPorId(dto.getProprietarioId());
+
 
         usuarioService.validarUsuarioAutenticadoEProprietario(dto.getProprietarioId());
 
@@ -57,8 +56,6 @@ public class ItemService {
     public Optional<ItemDTO> buscarPorId(Long id, Long restauranteId) {
         Restaurante restaurante = restauranteRepository.findById(restauranteId)
                 .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
-
-        UsuarioResponse usuario = usuarioService.buscarUsuarioPorId(restaurante.getProprietarioId());
 
         usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
 
