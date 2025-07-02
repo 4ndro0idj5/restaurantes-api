@@ -10,10 +10,8 @@ import io.github.restaurantes_api.dto.RestauranteRequest;
 import io.github.restaurantes_api.respositories.EnderecoRepository;
 import io.github.restaurantes_api.respositories.RestauranteRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
 
 import java.util.List;
 
@@ -32,30 +30,46 @@ public class RestauranteService {
         return restaurante;
     }
 
-    public List<RestauranteResponse> listarTodos() {
-
+    public List<RestauranteResponse> listarTodos(Long idUsuario) {
+        usuarioService.validarUsuarioAutenticado(idUsuario);
         return restauranteRepository.findAll().stream()
                 .map(restauranteMapper::toResponseDTO)
                 .toList();
     }
 
-    public RestauranteResponse buscarPorId(Long id) {
+    public RestauranteResponse buscarPorId(Long id, Long idUsuario) {
+        usuarioService.validarUsuarioAutenticado(idUsuario);
         Restaurante restaurante = restauranteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
 
         return restauranteMapper.toResponseDTO(restaurante);
     }
 
-    public void excluir(Long id) {
+    public void excluir(Long id, Long idUsuario) {
+
+        usuarioService.validarUsuarioAutenticadoEProprietario(idUsuario);
+
         Restaurante restaurante = restauranteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+
+        if (!restaurante.getProprietarioId().equals(idUsuario)) {
+            throw new RuntimeException("Usuário não tem permissão para excluir este restaurante");
+        }
+
 
         restauranteRepository.delete(restaurante);
     }
 
-    public RestauranteResponse atualizar(RestauranteUpdateDTO dto, Long id) {
+    public RestauranteResponse atualizar(RestauranteUpdateDTO dto, Long id, Long idUsuario){
+
+        usuarioService.validarUsuarioAutenticadoEProprietario(idUsuario);
+
         Restaurante restaurante = restauranteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+
+        if (!restaurante.getProprietarioId().equals(idUsuario)) {
+            throw new RuntimeException("Usuário não tem permissão para atualizar este restaurante");
+        }
 
         Endereco endereco = enderecoRepository.findById(restaurante.getEndereco().getId())
                 .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
@@ -69,7 +83,6 @@ public class RestauranteService {
         restaurante.setCategoria(dto.getCategoria());
         restaurante.setHorarioFuncionamento(dto.getHorarioFuncionamento());
         restaurante.setEndereco(endereco);
-
 
         Restaurante salvo = restauranteRepository.save(restaurante);
 

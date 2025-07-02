@@ -28,7 +28,7 @@ public class Restaurante {
     @Column(nullable = false)
     private String horarioFuncionamento;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique=true)
     private Long proprietarioId;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

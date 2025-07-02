@@ -28,25 +28,27 @@ public class RestauranteController {
 
     }
 
-    @GetMapping
-    public ResponseEntity<List<RestauranteResponse>> listar() {
-        return ResponseEntity.ok(restauranteService.listarTodos());
+    @GetMapping("/usuario/{idUsuario}")
+    public ResponseEntity<List<RestauranteResponse>> listar(@PathVariable Long idUsuario) {
+        return ResponseEntity.ok(restauranteService.listarTodos(idUsuario));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RestauranteResponse> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(restauranteService.buscarPorId(id));
+    @GetMapping("/{id}/usuario/{usuarioId}")
+    public ResponseEntity<RestauranteResponse> buscarPorId(@PathVariable Long id, @PathVariable Long idUsuario) {
+        return ResponseEntity.ok(restauranteService.buscarPorId(id, idUsuario));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        restauranteService.excluir(id);
+    @DeleteMapping("/{id}/usuario/{idUsuario}")
+    public ResponseEntity<Void> excluir(@PathVariable Long id, @PathVariable Long idUsuario) {
+        restauranteService.excluir(id, idUsuario);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<RestauranteResponse> autualizar(@RequestBody RestauranteUpdateDTO dto, @PathVariable Long id ) {
-        RestauranteResponse atualizado = restauranteService.atualizar(dto, id);
+    @PutMapping("/{id}/usuario/{idUsuario}")
+    public ResponseEntity<RestauranteResponse> autualizar(@RequestBody RestauranteUpdateDTO dto,
+                                                          @PathVariable Long id,
+                                                          @PathVariable Long idUsuario) {
+        RestauranteResponse atualizado = restauranteService.atualizar(dto, id, idUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(atualizado);
     }
 }
