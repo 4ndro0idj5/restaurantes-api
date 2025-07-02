@@ -2,6 +2,8 @@ package io.github.restaurantes_api.controller;
 
 import io.github.restaurantes_api.dto.RestauranteRequest;
 import io.github.restaurantes_api.dto.RestauranteResponse;
+import io.github.restaurantes_api.dto.RestauranteUpdateDTO;
+import io.github.restaurantes_api.entities.Restaurante;
 import io.github.restaurantes_api.services.RestauranteService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -42,4 +44,9 @@ public class RestauranteController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<RestauranteResponse> autualizar(@RequestBody RestauranteUpdateDTO dto, @PathVariable Long id ) {
+        RestauranteResponse atualizado = restauranteService.atualizar(dto, id);
+        return ResponseEntity.status(HttpStatus.CREATED).body(atualizado);
+    }
 }
