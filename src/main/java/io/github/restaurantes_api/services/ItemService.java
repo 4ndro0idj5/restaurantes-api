@@ -28,13 +28,17 @@ public class ItemService {
     private UsuarioService usuarioService;
 
 
-    public ItemDTO cadastrarItem(Long restauranteId, ItemDTO dto) {
+    public ItemDTO cadastrarItem(Long restauranteId, ItemDTO dto, Long usuarioId) {
 
 
         Restaurante restaurante = restauranteRepository.findById(restauranteId)
                 .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
 
         usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
+
+        if (!restaurante.getProprietarioId().equals(usuarioId)) {
+            throw new RuntimeException("Usuário não tem permissão para atualizar este prato.");
+        }
 
         Item item = Item.builder()
                 .nome(dto.getNome())

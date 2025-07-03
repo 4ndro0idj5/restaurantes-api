@@ -18,9 +18,11 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    @PostMapping
-    public ResponseEntity<ItemDTO> cadastrarItem(@PathVariable Long restauranteId, @RequestBody ItemDTO item) {
-        ItemDTO novoItem = itemService.cadastrarItem(restauranteId, item);
+    @PostMapping("/usuario/{usuarioId}")
+    public ResponseEntity<ItemDTO> cadastrarItem(@PathVariable Long restauranteId,
+                                                 @RequestBody ItemDTO item,
+                                                 @PathVariable Long usuarioId) {
+        ItemDTO novoItem = itemService.cadastrarItem(restauranteId, item, usuarioId);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoItem);
     }
 
