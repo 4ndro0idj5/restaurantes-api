@@ -44,5 +44,11 @@ public class ItemController {
         ItemDTO atualizado = itemService.atualizar(dto, id, idUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(atualizado);
     }
+
+    @DeleteMapping("/{id}/usuario/{idUsuario}")
+    public ResponseEntity<Void> excluir(@PathVariable Long restauranteId, @PathVariable Long id, @PathVariable Long idUsuario) {
+        itemService.excluir(restauranteId, id, idUsuario);
+        return ResponseEntity.noContent().build();
+    }
 }
 

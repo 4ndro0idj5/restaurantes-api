@@ -75,11 +75,11 @@ public class ItemService {
         usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
 
         if (!restaurante.getProprietarioId().equals(idUsuario)) {
-            throw new RuntimeException("Usuário não tem permissão para atualizar este restaurante");
+            throw new RuntimeException("Usuário não tem permissão para atualizar este prato.");
         }
 
         Item item = itemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Item não encontrado"));
+                .orElseThrow(() -> new RuntimeException("Item não encontrado."));
 
         item.setNome(dto.getNome());
         item.setDescricao(dto.getDescricao());
@@ -91,6 +91,24 @@ public class ItemService {
         Item salvo = itemRepository.save(item);
 
         return itemMapper.toItemDTO(salvo);
+    }
+
+    public void excluir(Long idRestaurante, Long id, Long idUsuario) {
+
+        Restaurante restaurante = restauranteRepository.findById(idRestaurante)
+                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+
+        usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
+
+        if (!restaurante.getProprietarioId().equals(idUsuario)) {
+            throw new RuntimeException("Usuário não tem permissão para excluir este prato.");
+        }
+
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Item não encontrado"));
+
+
+        itemRepository.delete(item);
     }
 
 }

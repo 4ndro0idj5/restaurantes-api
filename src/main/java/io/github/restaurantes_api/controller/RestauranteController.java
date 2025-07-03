@@ -51,4 +51,6 @@ public class RestauranteController {
         RestauranteResponse atualizado = restauranteService.atualizar(dto, id, idUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(atualizado);
     }
+
+
 }
