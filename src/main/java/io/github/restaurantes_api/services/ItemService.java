@@ -1,6 +1,9 @@
 package io.github.restaurantes_api.services;
 
 import io.github.restaurantes_api.dto.ItemDTO;
+import io.github.restaurantes_api.dto.RestauranteResponse;
+import io.github.restaurantes_api.dto.RestauranteUpdateDTO;
+import io.github.restaurantes_api.entities.Endereco;
 import io.github.restaurantes_api.entities.Item;
 import io.github.restaurantes_api.entities.Restaurante;
 import io.github.restaurantes_api.mapper.ItemMapper;
@@ -63,4 +66,31 @@ public class ItemService {
         return itemRepository.findById(id)
                 .map(itemMapper::toItemDTO);
     }
+
+    public ItemDTO atualizar(ItemDTO dto, Long id, Long idUsuario){
+
+        Restaurante restaurante = restauranteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+
+        usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
+
+        if (!restaurante.getProprietarioId().equals(idUsuario)) {
+            throw new RuntimeException("Usuário não tem permissão para atualizar este restaurante");
+        }
+
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Item não encontrado"));
+
+        item.setNome(dto.getNome());
+        item.setDescricao(dto.getDescricao());
+        item.setPreco(dto.getPreco());
+        item.setConsumoLocal(dto.isConsumoLocal());
+        item.setFoto(dto.getFoto());
+
+
+        Item salvo = itemRepository.save(item);
+
+        return itemMapper.toItemDTO(salvo);
+    }
+
 }

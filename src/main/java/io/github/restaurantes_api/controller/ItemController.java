@@ -1,6 +1,8 @@
 package io.github.restaurantes_api.controller;
 
 import io.github.restaurantes_api.dto.ItemDTO;
+import io.github.restaurantes_api.dto.RestauranteResponse;
+import io.github.restaurantes_api.dto.RestauranteUpdateDTO;
 import io.github.restaurantes_api.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,14 @@ public class ItemController {
         return itemService.buscarPorId(id, restauranteId)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PutMapping("/{id}/usuario/{idUsuario}")
+    public ResponseEntity<ItemDTO> atualizar(@RequestBody ItemDTO dto,
+                                              @PathVariable Long id,
+                                              @PathVariable Long idUsuario) {
+        ItemDTO atualizado = itemService.atualizar(dto, id, idUsuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(atualizado);
     }
 }
 
