@@ -38,10 +38,10 @@ public class ItemController {
     }
 
     @PutMapping("/{id}/usuario/{idUsuario}")
-    public ResponseEntity<ItemDTO> atualizar(@RequestBody ItemDTO dto,
+    public ResponseEntity<ItemDTO> atualizar(@PathVariable Long restauranteId,@RequestBody ItemDTO dto,
                                               @PathVariable Long id,
                                               @PathVariable Long idUsuario) {
-        ItemDTO atualizado = itemService.atualizar(dto, id, idUsuario);
+        ItemDTO atualizado = itemService.atualizar(restauranteId, dto, id, idUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(atualizado);
     }
 

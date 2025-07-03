@@ -67,9 +67,9 @@ public class ItemService {
                 .map(itemMapper::toItemDTO);
     }
 
-    public ItemDTO atualizar(ItemDTO dto, Long id, Long idUsuario){
+    public ItemDTO atualizar(Long idRestaurante, ItemDTO dto, Long id, Long idUsuario){
 
-        Restaurante restaurante = restauranteRepository.findById(id)
+        Restaurante restaurante = restauranteRepository.findById(idRestaurante)
                 .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
 
         usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
