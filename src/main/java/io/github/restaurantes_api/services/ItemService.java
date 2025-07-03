@@ -37,7 +37,7 @@ public class ItemService {
         usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
 
         if (!restaurante.getProprietarioId().equals(usuarioId)) {
-            throw new RuntimeException("Usuário não tem permissão para atualizar este prato.");
+            throw new RuntimeException("Usuário não tem permissão para incluir este prato.");
         }
 
         Item item = Item.builder()
