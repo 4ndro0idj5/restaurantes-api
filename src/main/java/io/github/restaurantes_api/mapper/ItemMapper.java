@@ -13,8 +13,7 @@ public class ItemMapper {
                 .descricao(item.getDescricao())
                 .preco(item.getPreco())
                 .foto(item.getFoto())
-                .proprietarioId(item.getRestaurante().getProprietarioId())
+                .consumoLocal(item.isConsumoLocal())
                 .build();
-
     }
 }

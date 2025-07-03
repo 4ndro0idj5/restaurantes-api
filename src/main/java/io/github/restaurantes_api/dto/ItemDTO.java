@@ -10,6 +10,6 @@ public class ItemDTO {
     private String descricao;
     private double preco;
     private String foto;
-    private Long proprietarioId;
+    private boolean consumoLocal;
 }
 

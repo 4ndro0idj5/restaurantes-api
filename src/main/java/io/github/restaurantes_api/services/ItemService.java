@@ -28,16 +28,17 @@ public class ItemService {
     public ItemDTO cadastrarItem(Long restauranteId, ItemDTO dto) {
 
 
-
-        usuarioService.validarUsuarioAutenticadoEProprietario(dto.getProprietarioId());
-
         Restaurante restaurante = restauranteRepository.findById(restauranteId)
                 .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+
+        usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
+
         Item item = Item.builder()
                 .nome(dto.getNome())
                 .descricao(dto.getDescricao())
                 .preco(dto.getPreco())
                 .foto(dto.getFoto())
+                .consumoLocal(dto.isConsumoLocal())
                 .build();
         item.setRestaurante(restaurante);
         Item salvo = itemRepository.save(item);

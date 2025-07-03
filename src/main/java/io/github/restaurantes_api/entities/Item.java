@@ -31,6 +31,8 @@ public class Item {
 
     private String foto;
 
+    private boolean consumoLocal;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurante_id", nullable = false)
