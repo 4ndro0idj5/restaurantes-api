@@ -26,9 +26,9 @@ public class ItemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novoItem);
     }
 
-    @GetMapping
-    public ResponseEntity<List<ItemDTO>> listarItens(@PathVariable Long restauranteId) {
-        List<ItemDTO> itens = itemService.listarItensPorRestaurante(restauranteId);
+    @GetMapping("/usuario/{usuarioId}")
+    public ResponseEntity<List<ItemDTO>> listarItens(@PathVariable Long restauranteId, @PathVariable Long usuarioId) {
+        List<ItemDTO> itens = itemService.listarItensPorRestaurante(restauranteId, usuarioId);
         return ResponseEntity.ok(itens);
     }
 
