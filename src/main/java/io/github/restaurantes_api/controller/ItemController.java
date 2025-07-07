@@ -32,9 +32,11 @@ public class ItemController {
         return ResponseEntity.ok(itens);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ItemDTO> buscarPorId(@PathVariable Long id, @PathVariable Long restauranteId) {
-        return itemService.buscarPorId(id, restauranteId)
+    @GetMapping("/{id}/usuario/{idUsuario}")
+    public ResponseEntity<ItemDTO> buscarPorId(@PathVariable Long id,
+                                               @PathVariable Long restauranteId,
+                                               @PathVariable Long idUsuario) {
+        return itemService.buscarPorId(id, restauranteId, idUsuario)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }

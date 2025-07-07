@@ -65,14 +65,15 @@ public class ItemService {
                 .toList();
     }
 
-    public Optional<ItemDTO> buscarPorId(Long id, Long restauranteId) {
+    public Optional<ItemDTO> buscarPorId(Long id, Long restauranteId, Long usuarioId) {
         Restaurante restaurante = restauranteRepository.findById(restauranteId)
                 .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
 
-        usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
+        usuarioService.validarUsuarioAutenticado(usuarioId);
 
-        return itemRepository.findById(id)
-                .map(itemMapper::toItemDTO);
+        return Optional.ofNullable(itemRepository.findByIdAndRestauranteId(id, restauranteId)
+                .map(itemMapper::toItemDTO)
+                .orElseThrow(() -> new RuntimeException("Item não encontrado para este restaurante")));
     }
 
     public ItemDTO atualizar(Long idRestaurante, ItemDTO dto, Long id, Long idUsuario){
