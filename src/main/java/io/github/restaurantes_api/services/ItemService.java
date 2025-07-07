@@ -87,7 +87,7 @@ public class ItemService {
             throw new RuntimeException("Usuário não tem permissão para atualizar este prato.");
         }
 
-        Item item = itemRepository.findById(id)
+        Item item = itemRepository.findByIdAndRestauranteId(id, idRestaurante)
                 .orElseThrow(() -> new RuntimeException("Item não encontrado."));
 
         item.setNome(dto.getNome());
@@ -113,7 +113,7 @@ public class ItemService {
             throw new RuntimeException("Usuário não tem permissão para excluir este prato.");
         }
 
-        Item item = itemRepository.findById(id)
+        Item item = itemRepository.findByIdAndRestauranteId(id, idRestaurante)
                 .orElseThrow(() -> new RuntimeException("Item não encontrado"));
 
 
