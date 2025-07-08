@@ -62,7 +62,7 @@ public class RestauranteService {
 
     public RestauranteResponse atualizar(RestauranteUpdateDTO dto, Long id, Long idUsuario){
 
-        usuarioService.validarUsuarioAutenticadoEProprietario(idUsuario);
+        usuarioService.validarUsuarioAutenticado(idUsuario);
 
         Restaurante restaurante = restauranteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
