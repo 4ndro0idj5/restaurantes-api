@@ -190,7 +190,7 @@ class RestauranteServiceTest {
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Restaurante não encontrado");
 
-        verify(usuarioService).validarUsuarioAutenticadoEProprietario(2L);
+        verify(usuarioService).validarUsuarioAutenticado(2L);
     }
 
     @Test
@@ -210,7 +210,7 @@ class RestauranteServiceTest {
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Usuário não tem permissão para excluir este restaurante");
 
-        verify(usuarioService).validarUsuarioAutenticadoEProprietario(idUsuario);
+        verify(usuarioService).validarUsuarioAutenticado(idUsuario);
     }
 
     @Test
