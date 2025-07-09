@@ -33,7 +33,7 @@ public class RestauranteController {
         return ResponseEntity.ok(restauranteService.listarTodos(idUsuario));
     }
 
-    @GetMapping("/{id}/usuario/{usuarioId}")
+    @GetMapping("/{id}/usuario/{idUsuario}")
     public ResponseEntity<RestauranteResponse> buscarPorId(@PathVariable Long id, @PathVariable Long idUsuario) {
         return ResponseEntity.ok(restauranteService.buscarPorId(id, idUsuario));
     }
