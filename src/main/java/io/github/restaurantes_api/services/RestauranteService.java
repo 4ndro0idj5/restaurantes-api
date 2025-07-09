@@ -47,7 +47,7 @@ public class RestauranteService {
 
     public void excluir(Long id, Long idUsuario) {
 
-        usuarioService.validarUsuarioAutenticadoEProprietario(idUsuario);
+        usuarioService.validarUsuarioAutenticado(idUsuario);
 
         Restaurante restaurante = restauranteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
@@ -88,6 +88,5 @@ public class RestauranteService {
 
         return restauranteMapper.toResponseDTO(salvo);
     }
-
 }
 
