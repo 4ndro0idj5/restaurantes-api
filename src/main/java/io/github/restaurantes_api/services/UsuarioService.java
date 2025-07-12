@@ -26,7 +26,7 @@ public class UsuarioService {
         UsuarioResponse usuario = obterUsuarioOuErro(id);
 
         if (!usuario.isAutenticado() || usuario.getPerfil() != Perfil.PROPRIETARIO) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autorizado");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não autorizado");
         }
     }
 
@@ -44,11 +44,11 @@ public class UsuarioService {
         try {
             UsuarioResponse usuario = restTemplate.getForObject(url, UsuarioResponse.class);
             if (usuario == null) {
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não encontrado");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
             }
             return usuario;
         } catch (HttpClientErrorException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não encontrado");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
         }
     }
 }

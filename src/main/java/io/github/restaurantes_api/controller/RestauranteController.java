@@ -3,8 +3,8 @@ package io.github.restaurantes_api.controller;
 import io.github.restaurantes_api.dto.RestauranteRequest;
 import io.github.restaurantes_api.dto.RestauranteResponse;
 import io.github.restaurantes_api.dto.RestauranteUpdateDTO;
-import io.github.restaurantes_api.entities.Restaurante;
 import io.github.restaurantes_api.services.RestauranteService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class RestauranteController {
 
 
     @PostMapping
-    public ResponseEntity<Void> cadastrar(@RequestBody RestauranteRequest request) {
+    public ResponseEntity<Void> cadastrar(@Valid @RequestBody RestauranteRequest request) {
 
         restauranteService.cadastrar(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();

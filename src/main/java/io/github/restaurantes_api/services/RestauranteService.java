@@ -60,7 +60,7 @@ public class RestauranteService {
         restauranteRepository.delete(restaurante);
     }
 
-    public RestauranteResponse atualizar(RestauranteUpdateDTO dto, Long id, Long idUsuario){
+    public RestauranteResponse atualizar(RestauranteUpdateDTO dto, Long id, Long idUsuario) {
 
         usuarioService.validarUsuarioAutenticado(idUsuario);
 
@@ -71,22 +71,28 @@ public class RestauranteService {
             throw new RuntimeException("Usuário não tem permissão para atualizar este restaurante");
         }
 
-        Endereco endereco = enderecoRepository.findById(restaurante.getEndereco().getId())
-                .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+        restaurante.setNome(dto.getNome() != null ? dto.getNome() : restaurante.getNome());
+        restaurante.setCategoria(dto.getCategoria() != null ? dto.getCategoria() : restaurante.getCategoria());
+        restaurante.setHorarioFuncionamento(dto.getHorarioFuncionamento() != null ? dto.getHorarioFuncionamento() : restaurante.getHorarioFuncionamento());
 
-        endereco.setRua(dto.getEnderecoRequest().getRua());
-        endereco.setNumero(dto.getEnderecoRequest().getNumero());
-        endereco.setBairro(dto.getEnderecoRequest().getBairro());
-        endereco.setCidade(dto.getEnderecoRequest().getCidade());
-        endereco.setCep(dto.getEnderecoRequest().getCep());
-        restaurante.setNome(dto.getNome());
-        restaurante.setCategoria(dto.getCategoria());
-        restaurante.setHorarioFuncionamento(dto.getHorarioFuncionamento());
-        restaurante.setEndereco(endereco);
+
+        if (dto.getEnderecoRequest() != null) {
+            Endereco endereco = enderecoRepository.findById(restaurante.getEndereco().getId())
+                    .orElseThrow(() -> new RuntimeException("Endereço não encontrado"));
+
+            endereco.setRua(dto.getEnderecoRequest().getRua() != null ? dto.getEnderecoRequest().getRua() : endereco.getRua());
+            endereco.setNumero(dto.getEnderecoRequest().getNumero() != null ? dto.getEnderecoRequest().getNumero() : endereco.getNumero());
+            endereco.setBairro(dto.getEnderecoRequest().getBairro() != null ? dto.getEnderecoRequest().getBairro() : endereco.getBairro());
+            endereco.setCidade(dto.getEnderecoRequest().getCidade() != null ? dto.getEnderecoRequest().getCidade() : endereco.getCidade());
+            endereco.setCep(dto.getEnderecoRequest().getCep() != null ? dto.getEnderecoRequest().getCep() : endereco.getCep());
+
+            restaurante.setEndereco(endereco);
+        }
 
         Restaurante salvo = restauranteRepository.save(restaurante);
 
         return restauranteMapper.toResponseDTO(salvo);
     }
+
 }
 

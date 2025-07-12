@@ -10,4 +10,5 @@ public class RestauranteResponse {
     private String nome;
     private String horarioFuncionamento;
     private Categoria categoria;
+    private EnderecoRequest enderecoRequest;
 }
