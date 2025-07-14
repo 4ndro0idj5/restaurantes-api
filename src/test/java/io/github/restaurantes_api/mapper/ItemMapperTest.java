@@ -23,7 +23,7 @@ class ItemMapperTest {
         Item item = Item.builder()
                 .nome("Pizza Margherita")
                 .descricao("Molho de tomate, mussarela e manjericão")
-                .preco(39.90)
+                .preco("39.90")
                 .foto("https://cdn.exemplo.com/pizza.jpg")
                 .consumoLocal(true)
                 .build();
@@ -37,6 +37,6 @@ class ItemMapperTest {
         assertThat(dto.getDescricao()).isEqualTo(item.getDescricao());
         assertThat(dto.getPreco()).isEqualTo(item.getPreco());
         assertThat(dto.getFoto()).isEqualTo(item.getFoto());
-        assertThat(dto.isConsumoLocal()).isEqualTo(item.isConsumoLocal());
+        assertThat(dto.getConsumoLocal()).isEqualTo(item.isConsumoLocal());
     }
 }

@@ -1,6 +1,7 @@
 package io.github.restaurantes_api.services;
 
 import io.github.restaurantes_api.dto.ItemDTO;
+import io.github.restaurantes_api.dto.ItemUpdateDTO;
 import io.github.restaurantes_api.entities.Item;
 import io.github.restaurantes_api.entities.Restaurante;
 import io.github.restaurantes_api.mapper.ItemMapper;
@@ -46,6 +47,7 @@ class ItemServiceTest {
     private Restaurante restaurante;
     private Item item;
     private ItemDTO itemDTO;
+    private ItemUpdateDTO itemUpdateDTO;
 
     @BeforeEach
     void setUp() {
@@ -58,7 +60,7 @@ class ItemServiceTest {
                 .id(1L)
                 .nome("Pizza")
                 .descricao("Pizza saborosa")
-                .preco(50.0)
+                .preco("50.00")
                 .consumoLocal(true)
                 .restaurante(restaurante)
                 .build();
@@ -66,8 +68,12 @@ class ItemServiceTest {
         itemDTO = ItemDTO.builder()
                 .nome("Pizza")
                 .descricao("Pizza saborosa")
-                .preco(50.0)
+                .preco("50.00")
                 .consumoLocal(true)
+                .build();
+
+        itemUpdateDTO = ItemUpdateDTO.builder()
+                .nome("Pizza grande")
                 .build();
     }
 
@@ -113,9 +119,9 @@ class ItemServiceTest {
         when(restauranteRepository.findById(1L)).thenReturn(Optional.of(restaurante));
         when(itemRepository.findByIdAndRestauranteId(1L, 1L)).thenReturn(Optional.of(item));
         when(itemRepository.save(any(Item.class))).thenReturn(item);
-        when(itemMapper.toItemDTO(any(Item.class))).thenReturn(itemDTO);
+        when(itemMapper.toItemUpdateDTO(any(Item.class))).thenReturn(itemUpdateDTO);
 
-        ItemDTO result = itemService.atualizar(1L, itemDTO, 1L, 10L);
+        ItemUpdateDTO result = itemService.atualizar(1L, itemUpdateDTO, 1L, 10L);
 
         assertNotNull(result);
         verify(usuarioService).validarUsuarioAutenticado(10L);

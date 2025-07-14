@@ -27,7 +27,7 @@ public class Item {
     private String descricao;
 
     @Column(nullable = false)
-    private Double preco;
+    private String preco;
 
     private String foto;
 

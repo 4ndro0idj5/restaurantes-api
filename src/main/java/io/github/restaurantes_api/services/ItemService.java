@@ -1,6 +1,7 @@
 package io.github.restaurantes_api.services;
 
 import io.github.restaurantes_api.dto.ItemDTO;
+import io.github.restaurantes_api.dto.ItemUpdateDTO;
 import io.github.restaurantes_api.dto.RestauranteResponse;
 import io.github.restaurantes_api.dto.RestauranteUpdateDTO;
 import io.github.restaurantes_api.entities.Endereco;
@@ -45,7 +46,7 @@ public class ItemService {
                 .descricao(dto.getDescricao())
                 .preco(dto.getPreco())
                 .foto(dto.getFoto())
-                .consumoLocal(dto.isConsumoLocal())
+                .consumoLocal(dto.getConsumoLocal())
                 .build();
         item.setRestaurante(restaurante);
         Item salvo = itemRepository.save(item);
@@ -76,7 +77,7 @@ public class ItemService {
                 .orElseThrow(() -> new RuntimeException("Item não encontrado para este restaurante")));
     }
 
-    public ItemDTO atualizar(Long idRestaurante, ItemDTO dto, Long id, Long idUsuario){
+    public ItemUpdateDTO atualizar(Long idRestaurante, ItemUpdateDTO dto, Long id, Long idUsuario) {
 
         Restaurante restaurante = restauranteRepository.findById(idRestaurante)
                 .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
@@ -90,16 +91,15 @@ public class ItemService {
         Item item = itemRepository.findByIdAndRestauranteId(id, idRestaurante)
                 .orElseThrow(() -> new RuntimeException("Item não encontrado."));
 
-        item.setNome(dto.getNome());
-        item.setDescricao(dto.getDescricao());
-        item.setPreco(dto.getPreco());
-        item.setConsumoLocal(dto.isConsumoLocal());
-        item.setFoto(dto.getFoto());
-
+        item.setNome(dto.getNome() != null ? dto.getNome() : item.getNome());
+        item.setDescricao(dto.getDescricao() != null ? dto.getDescricao() : item.getDescricao());
+        item.setPreco(dto.getPreco() != null ? dto.getPreco() : item.getPreco());
+        item.setConsumoLocal(dto.getConsumoLocal() != null ? dto.getConsumoLocal() : item.isConsumoLocal());
+        item.setFoto(dto.getFoto() != null ? dto.getFoto() : item.getFoto());
 
         Item salvo = itemRepository.save(item);
 
-        return itemMapper.toItemDTO(salvo);
+        return itemMapper.toItemUpdateDTO(salvo);
     }
 
     public void excluir(Long idRestaurante, Long id, Long idUsuario) {

@@ -1,18 +1,17 @@
 package io.github.restaurantes_api.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class ItemDTO {
+public class ItemUpdateDTO {
 
-    @NotBlank(message = "O nome do item é obrigatório")
     @Size(min = 3, max = 100, message = "O nome deve ter entre 3 e 100 caracteres")
     private String nome;
 
-    @NotBlank(message = "A descrição do item é obrigatória")
     @Size(min = 5, max = 255, message = "A descrição deve ter entre 5 e 255 caracteres")
     private String descricao;
 
@@ -22,12 +21,9 @@ public class ItemDTO {
     )
     private String preco;
 
-    @NotBlank(message = "A URL da foto é obrigatória")
     @Size(max = 255, message = "A URL da foto deve ter no máximo 255 caracteres")
     private String foto;
 
-    @NotNull(message = "Informe se o item é para consumo local ou não")
     private Boolean consumoLocal;
+
 }
-
-

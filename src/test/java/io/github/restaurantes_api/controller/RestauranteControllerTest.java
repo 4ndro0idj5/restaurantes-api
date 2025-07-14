@@ -1,6 +1,7 @@
 package io.github.restaurantes_api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.restaurantes_api.dto.EnderecoRequest;
 import io.github.restaurantes_api.dto.RestauranteRequest;
 import io.github.restaurantes_api.dto.RestauranteResponse;
 import io.github.restaurantes_api.dto.RestauranteUpdateDTO;
@@ -47,10 +48,20 @@ class RestauranteControllerTest {
 
     @Test
     void deveCadastrarRestauranteComSucesso() throws Exception {
+        EnderecoRequest endereco = EnderecoRequest.builder()
+                .rua("Rua dos Inválidos")
+                .numero("2500")
+                .bairro("Barra da Tijuca")
+                .cidade("Rio de Janeiro")
+                .cep("22640102")
+                .build();
+
         RestauranteRequest request = RestauranteRequest.builder()
-                .nome("Pizzaria Bella Napoli")
-                .horarioFuncionamento("18:00 - 23:00")
+                .nome("Massa que amassa")
                 .categoria(Categoria.ITALIANA)
+                .horarioFuncionamento("14:00h - 20:00h")
+                .proprietarioId(1L)
+                .enderecoRequest(endereco)
                 .build();
 
         mockMvc.perform(post("/api/v1/restaurantes")

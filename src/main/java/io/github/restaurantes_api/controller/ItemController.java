@@ -1,9 +1,9 @@
 package io.github.restaurantes_api.controller;
 
 import io.github.restaurantes_api.dto.ItemDTO;
-import io.github.restaurantes_api.dto.RestauranteResponse;
-import io.github.restaurantes_api.dto.RestauranteUpdateDTO;
+import io.github.restaurantes_api.dto.ItemUpdateDTO;
 import io.github.restaurantes_api.services.ItemService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class ItemController {
 
     @PostMapping("/usuario/{usuarioId}")
     public ResponseEntity<ItemDTO> cadastrarItem(@PathVariable Long restauranteId,
-                                                 @RequestBody ItemDTO item,
+                                                 @Valid @RequestBody ItemDTO item,
                                                  @PathVariable Long usuarioId) {
         ItemDTO novoItem = itemService.cadastrarItem(restauranteId, item, usuarioId);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoItem);
@@ -42,10 +42,10 @@ public class ItemController {
     }
 
     @PutMapping("/{id}/usuario/{idUsuario}")
-    public ResponseEntity<ItemDTO> atualizar(@PathVariable Long restauranteId,@RequestBody ItemDTO dto,
+    public ResponseEntity<ItemUpdateDTO> atualizar(@PathVariable Long restauranteId, @Valid @RequestBody ItemUpdateDTO dto,
                                               @PathVariable Long id,
                                               @PathVariable Long idUsuario) {
-        ItemDTO atualizado = itemService.atualizar(restauranteId, dto, id, idUsuario);
+        ItemUpdateDTO atualizado = itemService.atualizar(restauranteId, dto, id, idUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(atualizado);
     }
 
