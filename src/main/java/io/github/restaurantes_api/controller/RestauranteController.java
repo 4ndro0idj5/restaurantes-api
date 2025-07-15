@@ -1,5 +1,6 @@
 package io.github.restaurantes_api.controller;
 
+import io.github.restaurantes_api.docs.RestauranteApiDoc;
 import io.github.restaurantes_api.dto.RestauranteRequest;
 import io.github.restaurantes_api.dto.RestauranteResponse;
 import io.github.restaurantes_api.dto.RestauranteUpdateDTO;
@@ -15,17 +16,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/restaurantes")
 @AllArgsConstructor
-public class RestauranteController {
+public class RestauranteController implements RestauranteApiDoc {
 
     private final RestauranteService restauranteService;
 
-
     @PostMapping
     public ResponseEntity<Void> cadastrar(@Valid @RequestBody RestauranteRequest request) {
-
         restauranteService.cadastrar(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
-
     }
 
     @GetMapping("/usuario/{idUsuario}")
@@ -45,12 +43,10 @@ public class RestauranteController {
     }
 
     @PutMapping("/{id}/usuario/{idUsuario}")
-    public ResponseEntity<RestauranteResponse> autualizar(@RequestBody RestauranteUpdateDTO dto,
-                                                          @PathVariable Long id,
-                                                          @PathVariable Long idUsuario) {
+    public ResponseEntity<RestauranteResponse> atualizar(@RequestBody RestauranteUpdateDTO dto,
+                                                         @PathVariable Long id,
+                                                         @PathVariable Long idUsuario) {
         RestauranteResponse atualizado = restauranteService.atualizar(dto, id, idUsuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(atualizado);
     }
-
-
 }
