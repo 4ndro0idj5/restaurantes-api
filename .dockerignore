@@ -1,0 +1,10 @@
+target/
+*.log
+*.env
+.idea/
+.vscode/
+*.iml
+.DS_Store
+.git
+.gitignore
+docker-compose.override.yml
