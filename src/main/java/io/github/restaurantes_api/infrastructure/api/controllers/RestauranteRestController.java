@@ -1,6 +1,6 @@
 package io.github.restaurantes_api.infrastructure.api.controllers;
 
-import io.github.restaurantes_api.core.controllers.RestauranteController;
+import io.github.restaurantes_api.application.presenters.RestaurantePresenter;
 import io.github.restaurantes_api.core.dtos.RestauranteRequest;
 import io.github.restaurantes_api.core.dtos.RestauranteResponse;
 import io.github.restaurantes_api.core.dtos.RestauranteUpdateDTO;
@@ -15,34 +15,35 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RestauranteRestController {
 
-    private final RestauranteController controller;
+    private final RestaurantePresenter restaurantePresenter;
 
     @PostMapping
     public ResponseEntity<Void> cadastrar(@RequestBody RestauranteRequest request) {
-        controller.cadastrar(request);
+        restaurantePresenter.cadastrar(request);
         return ResponseEntity.status(201).build();
     }
 
     @GetMapping("/usuario/{idUsuario}")
     public ResponseEntity<List<RestauranteResponse>> listar(@PathVariable Long idUsuario) {
-        return ResponseEntity.ok(controller.listar(idUsuario));
+        return ResponseEntity.ok(restaurantePresenter.listar(idUsuario));
     }
 
     @GetMapping("/{id}/usuario/{idUsuario}")
     public ResponseEntity<RestauranteResponse> buscarPorId(@PathVariable Long id, @PathVariable Long idUsuario) {
-        return ResponseEntity.ok(controller.buscarPorId(id, idUsuario));
+        return ResponseEntity.ok(restaurantePresenter.buscarPorId(id, idUsuario));
     }
 
     @DeleteMapping("/{id}/usuario/{idUsuario}")
     public ResponseEntity<Void> excluir(@PathVariable Long id, @PathVariable Long idUsuario) {
-        controller.excluir(id, idUsuario);
+        restaurantePresenter.excluir(id, idUsuario);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/usuario/{idUsuario}")
-    public ResponseEntity<RestauranteResponse> atualizar(@RequestBody RestauranteUpdateDTO dto,
-                                                         @PathVariable Long id,
-                                                         @PathVariable Long idUsuario) {
-        return ResponseEntity.ok(controller.atualizar(dto, id, idUsuario));
+    public ResponseEntity<Void> atualizar(@RequestBody RestauranteUpdateDTO dto,
+                                          @PathVariable Long id,
+                                          @PathVariable Long idUsuario) {
+        restaurantePresenter.atualizar(dto, id, idUsuario);
+        return ResponseEntity.noContent().build();
     }
 }

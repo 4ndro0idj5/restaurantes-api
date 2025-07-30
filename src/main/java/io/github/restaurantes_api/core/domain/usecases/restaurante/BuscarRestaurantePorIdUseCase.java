@@ -1,4 +1,4 @@
-package io.github.restaurantes_api.core.domain.usecases;
+package io.github.restaurantes_api.core.domain.usecases.restaurante;
 
 import io.github.restaurantes_api.core.domain.entities.Restaurante;
 

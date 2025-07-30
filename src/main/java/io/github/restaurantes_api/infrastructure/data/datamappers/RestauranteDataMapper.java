@@ -5,6 +5,8 @@ import io.github.restaurantes_api.infrastructure.data.entities.RestauranteEntity
 
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 
 @Component
 public class RestauranteDataMapper {
@@ -28,7 +30,10 @@ public class RestauranteDataMapper {
                 .build();
 
         restauranteEntity.setItens(
-                itemDataMapper.toEntityList(restaurante.getItens(), restauranteEntity)
+                itemDataMapper.toEntityList(
+                        restaurante.getItens() != null ? restaurante.getItens() : List.of(),
+                        restauranteEntity
+                )
         );
 
         return restauranteEntity;

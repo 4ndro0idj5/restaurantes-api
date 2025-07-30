@@ -1,15 +1,14 @@
-package io.github.restaurantes_api.infrastructure.presenters;
+package io.github.restaurantes_api.application.mapper;
 
 import io.github.restaurantes_api.core.domain.entities.Endereco;
 import io.github.restaurantes_api.core.domain.entities.Restaurante;
 import io.github.restaurantes_api.core.dtos.EnderecoRequest;
 import io.github.restaurantes_api.core.dtos.RestauranteRequest;
 import io.github.restaurantes_api.core.dtos.RestauranteResponse;
-import io.github.restaurantes_api.core.interfaces.RestaurantePresenter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RestaurantePresenterImpl implements RestaurantePresenter {
+public class RestauranteMapper {
     public Restaurante fromDTO(RestauranteRequest dto){
 
         return Restaurante.builder()

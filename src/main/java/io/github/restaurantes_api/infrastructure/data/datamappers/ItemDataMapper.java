@@ -11,17 +11,32 @@ import java.util.List;
 @Component
 public class ItemDataMapper {
 
-    public ItemEntity toEntity(Item item, RestauranteEntity restauranteEntity) {
-        ItemEntity entity = new ItemEntity();
-        entity.setId(item.getId());
-        entity.setNome(item.getNome());
-        entity.setDescricao(item.getDescricao());
-        entity.setPreco(item.getPreco());
-        entity.setFoto(item.getFoto());
-        entity.setConsumoLocal(item.isConsumoLocal());
-        entity.setRestaurante(restauranteEntity);
-        return entity;
+
+    public ItemEntity toEntity(Item item, RestauranteEntity restaurante) {
+        return ItemEntity.builder()
+                .id(item.getId())
+                .nome(item.getNome())
+                .descricao(item.getDescricao())
+                .preco(item.getPreco())
+                .foto(item.getFoto())
+                .consumoLocal(item.isConsumoLocal())
+                .restaurante(restaurante)
+                .build();
     }
+
+
+    public ItemEntity toEntity(Item item) {
+        if (item.getRestauranteId() == null) {
+            throw new IllegalArgumentException("RestauranteId não pode ser nulo para mapear ItemEntity");
+        }
+
+        RestauranteEntity restaurante = RestauranteEntity.builder()
+                .id(item.getRestauranteId())
+                .build();
+
+        return toEntity(item, restaurante);
+    }
+
 
     public Item toDomain(ItemEntity entity) {
         return Item.builder()
@@ -31,13 +46,15 @@ public class ItemDataMapper {
                 .preco(entity.getPreco())
                 .foto(entity.getFoto())
                 .consumoLocal(entity.isConsumoLocal())
-                .restauranteId(entity.getRestaurante().getId())
+                .restauranteId(entity.getRestaurante() != null ? entity.getRestaurante().getId() : null)
                 .build();
     }
 
-    public List<ItemEntity> toEntityList(List<Item> items, RestauranteEntity restauranteEntity) {
+
+    public List<ItemEntity> toEntityList(List<Item> items, RestauranteEntity restaurante) {
+        if (items == null) return List.of();
         return items.stream()
-                .map(item -> toEntity(item, restauranteEntity))
+                .map(item -> toEntity(item, restaurante))
                 .toList();
     }
 }

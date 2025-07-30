@@ -1,6 +1,6 @@
-package io.github.restaurantes_api.application.usecases;
+package io.github.restaurantes_api.application.usecases.restaurante;
 
-import io.github.restaurantes_api.core.domain.usecases.ExcluirRestauranteUseCase;
+import io.github.restaurantes_api.core.domain.usecases.restaurante.ExcluirRestauranteUseCase;
 import io.github.restaurantes_api.core.gateways.RestauranteGateway;
 import io.github.restaurantes_api.core.gateways.UsuarioServiceGateway;
 import lombok.RequiredArgsConstructor;
