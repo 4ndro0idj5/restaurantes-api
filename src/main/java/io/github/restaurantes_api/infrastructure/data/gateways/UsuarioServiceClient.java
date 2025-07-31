@@ -1,14 +1,16 @@
-package io.github.restaurantes_api.infrastructure;
+package io.github.restaurantes_api.infrastructure.data.gateways;
 
+
+import io.github.restaurantes_api.core.domain.exceptions.ForbiddenException;
+import io.github.restaurantes_api.core.domain.exceptions.NotFoundException;
+import io.github.restaurantes_api.core.domain.exceptions.UnauthorizedException;
 import io.github.restaurantes_api.core.dtos.UsuarioResponse;
 import io.github.restaurantes_api.core.gateways.UsuarioServiceGateway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.server.ResponseStatusException;
 
 @Component
 public class UsuarioServiceClient implements UsuarioServiceGateway {
@@ -26,8 +28,12 @@ public class UsuarioServiceClient implements UsuarioServiceGateway {
     public void validarUsuarioAutenticadoEProprietario(Long id) {
         UsuarioResponse usuario = obterUsuarioOuErro(id);
 
-        if (!usuario.isAutenticado() || usuario.getPerfil() != UsuarioResponse.Perfil.PROPRIETARIO) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário não autorizado");
+        if (!usuario.isAutenticado()) {
+            throw new UnauthorizedException("Usuário não autenticado");
+        }
+
+        if (usuario.getPerfil() != UsuarioResponse.Perfil.PROPRIETARIO) {
+            throw new ForbiddenException("Usuário não é proprietário");
         }
     }
 
@@ -36,7 +42,7 @@ public class UsuarioServiceClient implements UsuarioServiceGateway {
         UsuarioResponse usuario = obterUsuarioOuErro(id);
 
         if (!usuario.isAutenticado()) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Usuário não autenticado");
+            throw new ForbiddenException("Usuário não autenticado");
         }
     }
 
@@ -45,11 +51,11 @@ public class UsuarioServiceClient implements UsuarioServiceGateway {
         try {
             UsuarioResponse usuario = restTemplate.getForObject(url, UsuarioResponse.class);
             if (usuario == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
+                throw new NotFoundException("Usuário não encontrado");
             }
             return usuario;
         } catch (HttpClientErrorException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
+            throw new NotFoundException("Usuário não encontrado");
         }
     }
 }

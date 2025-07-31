@@ -1,6 +1,7 @@
 package io.github.restaurantes_api.application.usecases.restaurante;
 
 import io.github.restaurantes_api.core.domain.entities.Restaurante;
+import io.github.restaurantes_api.core.domain.exceptions.NotFoundException;
 import io.github.restaurantes_api.core.domain.usecases.restaurante.BuscarRestaurantePorIdUseCase;
 import io.github.restaurantes_api.core.gateways.RestauranteGateway;
 import io.github.restaurantes_api.core.gateways.UsuarioServiceGateway;
@@ -18,7 +19,7 @@ public class BuscarRestaurantePorIdUseCaseImpl implements BuscarRestaurantePorId
     public Restaurante executar(Long restauranteId, Long usuarioId) {
         usuarioService.validarUsuarioAutenticado(usuarioId);
         return gateway.buscarPorId(restauranteId)
-                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
     }
 }
 

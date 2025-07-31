@@ -1,4 +1,4 @@
-package io.github.restaurantes_api.config;
+package io.github.restaurantes_api.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

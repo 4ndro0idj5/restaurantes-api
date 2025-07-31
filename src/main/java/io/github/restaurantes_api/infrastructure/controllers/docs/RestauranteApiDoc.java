@@ -1,4 +1,4 @@
-package io.github.restaurantes_api.infrastructure.api.controllers;
+package io.github.restaurantes_api.infrastructure.controllers.docs;
 
 
 import io.github.restaurantes_api.core.dtos.RestauranteRequest;
@@ -54,5 +54,5 @@ public interface RestauranteApiDoc {
             @ApiResponse(responseCode = "403", description = "Usuário não tem permissão"),
             @ApiResponse(responseCode = "401", description = "Usuário não autorizado")
     })
-    ResponseEntity<RestauranteResponse> atualizar(RestauranteUpdateDTO dto, Long id, Long idUsuario);
+    ResponseEntity<Void> atualizar(RestauranteUpdateDTO dto, Long id, Long idUsuario);
 }

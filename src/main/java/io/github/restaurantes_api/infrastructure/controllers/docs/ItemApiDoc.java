@@ -1,4 +1,4 @@
-package io.github.restaurantes_api.infrastructure.api.controllers;
+package io.github.restaurantes_api.infrastructure.controllers.docs;
 
 import io.github.restaurantes_api.core.dtos.ItemDTO;
 import io.github.restaurantes_api.core.dtos.ItemUpdateDTO;
@@ -17,6 +17,8 @@ import java.util.List;
 @Tag(name = "Itens", description = "Gerenciamento de Itens do Cardápio")
 public interface ItemApiDoc {
 
+    @Operation(summary = "Cadastrar um novo item",
+            description = "Cria um novo item no cardápio de um restaurante.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Item criado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content)
@@ -24,7 +26,9 @@ public interface ItemApiDoc {
     ResponseEntity<Void> cadastrarItem(
             @Parameter(description = "ID do restaurante") Long restauranteId,
             @Valid ItemDTO item,
-            @Parameter(description = "ID do usuário proprietário") Long usuarioId);
+            @Parameter(description = "ID do usuário proprietário") Long usuarioId
+    );
+
     @Operation(summary = "Listar todos os itens do restaurante",
             description = "Retorna todos os itens cadastrados para um restaurante específico.")
     @ApiResponses(value = {
@@ -34,7 +38,8 @@ public interface ItemApiDoc {
     })
     ResponseEntity<List<ItemDTO>> listarItens(
             @Parameter(description = "ID do restaurante") Long restauranteId,
-            @Parameter(description = "ID do usuário autenticado") Long usuarioId);
+            @Parameter(description = "ID do usuário autenticado") Long usuarioId
+    );
 
     @Operation(summary = "Buscar item por ID",
             description = "Busca os detalhes de um item específico pelo ID.")
@@ -42,33 +47,37 @@ public interface ItemApiDoc {
             @ApiResponse(responseCode = "200", description = "Item encontrado",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ItemDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Item não encontrado", content = @Content)
+            @ApiResponse(responseCode = "404", description = "Item ou restaurante não encontrado", content = @Content)
     })
     ResponseEntity<ItemDTO> buscarPorId(
             @Parameter(description = "ID do item") Long id,
             @Parameter(description = "ID do restaurante") Long restauranteId,
-            @Parameter(description = "ID do usuário autenticado") Long idUsuario);
+            @Parameter(description = "ID do usuário autenticado") Long idUsuario
+    );
 
     @Operation(summary = "Atualizar um item",
             description = "Atualiza as informações de um item específico do cardápio.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Item atualizado com sucesso"),
-            @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content)
+            @ApiResponse(responseCode = "400", description = "Dados inválidos", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Item ou restaurante não encontrado", content = @Content)
     })
     ResponseEntity<Void> atualizar(
             @Parameter(description = "ID do restaurante") Long restauranteId,
             @Valid ItemUpdateDTO dto,
             @Parameter(description = "ID do item") Long id,
-            @Parameter(description = "ID do usuário autenticado") Long idUsuario);
+            @Parameter(description = "ID do usuário autenticado") Long idUsuario
+    );
 
     @Operation(summary = "Excluir um item",
             description = "Remove um item específico do cardápio do restaurante.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Item excluído com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Item não encontrado", content = @Content)
+            @ApiResponse(responseCode = "404", description = "Item ou restaurante não encontrado", content = @Content)
     })
     ResponseEntity<Void> excluir(
             @Parameter(description = "ID do restaurante") Long restauranteId,
             @Parameter(description = "ID do item") Long id,
-            @Parameter(description = "ID do usuário autenticado") Long idUsuario);
+            @Parameter(description = "ID do usuário autenticado") Long idUsuario
+    );
 }

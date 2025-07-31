@@ -10,4 +10,5 @@ public interface ItemGateway {
     List<Item> listarPorRestauranteId(Long restauranteId);
     Optional<Item> buscarPorIdEPorRestauranteId(Long id, Long restauranteId);
     void excluir(Item item);
+    boolean restauranteExiste(Long restauranteId);
 }

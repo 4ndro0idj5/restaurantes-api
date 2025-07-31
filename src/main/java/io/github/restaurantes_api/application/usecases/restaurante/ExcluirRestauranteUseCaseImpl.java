@@ -1,5 +1,7 @@
 package io.github.restaurantes_api.application.usecases.restaurante;
 
+import io.github.restaurantes_api.core.domain.exceptions.ForbiddenException;
+import io.github.restaurantes_api.core.domain.exceptions.NotFoundException;
 import io.github.restaurantes_api.core.domain.usecases.restaurante.ExcluirRestauranteUseCase;
 import io.github.restaurantes_api.core.gateways.RestauranteGateway;
 import io.github.restaurantes_api.core.gateways.UsuarioServiceGateway;
@@ -18,10 +20,10 @@ public class ExcluirRestauranteUseCaseImpl implements ExcluirRestauranteUseCase 
         usuarioService.validarUsuarioAutenticado(usuarioId);
 
         var restaurante = gateway.buscarPorId(restauranteId)
-                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
 
         if (!restaurante.getProprietarioId().equals(usuarioId)) {
-            throw new RuntimeException("Usuário não tem permissão para excluir este restaurante");
+            throw new ForbiddenException("Usuário não tem permissão para excluir este restaurante");
         }
 
         gateway.excluir(restaurante);

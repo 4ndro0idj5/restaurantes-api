@@ -1,6 +1,7 @@
 package io.github.restaurantes_api.infrastructure.data.gateways;
 
 import io.github.restaurantes_api.core.domain.entities.Item;
+import io.github.restaurantes_api.core.domain.exceptions.NotFoundException;
 import io.github.restaurantes_api.core.gateways.ItemGateway;
 import io.github.restaurantes_api.infrastructure.data.datamappers.ItemDataMapper;
 import io.github.restaurantes_api.infrastructure.data.entities.ItemEntity;
@@ -67,9 +68,14 @@ public class ItemGatewayImpl implements ItemGateway {
         boolean removed = restaurante.getItens().removeIf(i -> i.getId().equals(item.getId()));
 
         if (!removed) {
-            throw new RuntimeException("Item não encontrado para deleção");
+            throw new NotFoundException("Item não encontrado.");
         }
 
+    }
+
+    @Override
+    public boolean restauranteExiste(Long restauranteId) {
+        return restauranteRepository.existsById(restauranteId);
     }
 
 }

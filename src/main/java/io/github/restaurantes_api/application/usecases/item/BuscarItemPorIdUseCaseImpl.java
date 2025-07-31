@@ -1,6 +1,7 @@
 package io.github.restaurantes_api.application.usecases.item;
 
 import io.github.restaurantes_api.core.domain.entities.Item;
+import io.github.restaurantes_api.core.domain.exceptions.NotFoundException;
 import io.github.restaurantes_api.core.domain.usecases.item.BuscarItemPorIdUseCase;
 import io.github.restaurantes_api.core.gateways.ItemGateway;
 import io.github.restaurantes_api.core.gateways.UsuarioServiceGateway;
@@ -19,7 +20,23 @@ public class BuscarItemPorIdUseCaseImpl implements BuscarItemPorIdUseCase {
 
     @Override
     public Optional<Item> executar(Long id, Long restauranteId, Long usuarioId) {
+
         usuarioService.validarUsuarioAutenticado(usuarioId);
-        return itemGateway.buscarPorIdEPorRestauranteId(id, restauranteId);
+
+        if (!itemGateway.restauranteExiste(restauranteId)) {
+            throw new NotFoundException(
+                    "Restaurante não encontrado."
+            );
+        }
+
+        Optional<Item> itemOptional = itemGateway.buscarPorIdEPorRestauranteId(id, restauranteId);
+
+        if (itemOptional.isEmpty()) {
+            throw new NotFoundException(
+                    "Item não encontrado."
+            );
+        }
+
+        return itemOptional;
     }
 }

@@ -2,6 +2,8 @@ package io.github.restaurantes_api.application.usecases.item;
 
 import io.github.restaurantes_api.core.domain.entities.Item;
 import io.github.restaurantes_api.core.domain.entities.Restaurante;
+import io.github.restaurantes_api.core.domain.exceptions.ForbiddenException;
+import io.github.restaurantes_api.core.domain.exceptions.NotFoundException;
 import io.github.restaurantes_api.core.domain.usecases.item.ExcluirItemUseCase;
 import io.github.restaurantes_api.core.gateways.ItemGateway;
 import io.github.restaurantes_api.core.gateways.RestauranteGateway;
@@ -20,16 +22,16 @@ public class ExcluirItemUseCaseImpl implements ExcluirItemUseCase {
     @Override
     public void executar(Long restauranteId, Long id, Long usuarioId) {
         Restaurante restaurante = restauranteGateway.buscarPorId(restauranteId)
-                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
 
         usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
 
         if (!restaurante.getProprietarioId().equals(usuarioId)) {
-            throw new RuntimeException("Usuário não tem permissão para excluir este prato.");
+            throw new ForbiddenException("Usuário não tem permissão para excluir este prato.");
         }
 
         Item item = itemGateway.buscarPorIdEPorRestauranteId(id, restauranteId)
-                .orElseThrow(() -> new RuntimeException("Item não encontrado"));
+                .orElseThrow(() -> new ForbiddenException("Item não encontrado"));
 
         itemGateway.excluir(item);
     }

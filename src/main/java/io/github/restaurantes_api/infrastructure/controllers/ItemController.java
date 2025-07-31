@@ -1,8 +1,9 @@
-package io.github.restaurantes_api.infrastructure.api.controllers;
+package io.github.restaurantes_api.infrastructure.controllers;
 
 import io.github.restaurantes_api.core.dtos.ItemDTO;
 import io.github.restaurantes_api.core.dtos.ItemUpdateDTO;
 import io.github.restaurantes_api.application.presenters.ItemPresenter;
+import io.github.restaurantes_api.infrastructure.controllers.docs.ItemApiDoc;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

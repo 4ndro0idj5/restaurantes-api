@@ -3,6 +3,8 @@ package io.github.restaurantes_api.application.usecases.item;
 import io.github.restaurantes_api.application.mapper.ItemMapper;
 import io.github.restaurantes_api.core.domain.entities.Item;
 import io.github.restaurantes_api.core.domain.entities.Restaurante;
+import io.github.restaurantes_api.core.domain.exceptions.ForbiddenException;
+import io.github.restaurantes_api.core.domain.exceptions.NotFoundException;
 import io.github.restaurantes_api.core.domain.usecases.item.CadastrarItemUseCase;
 import io.github.restaurantes_api.core.dtos.ItemDTO;
 import io.github.restaurantes_api.core.gateways.ItemGateway;
@@ -24,12 +26,12 @@ public class CadastrarItemUseCaseImpl implements CadastrarItemUseCase {
     @Override
     public void executar(Long restauranteId, ItemDTO dto, Long usuarioId) {
         Restaurante restaurante = restauranteGateway.buscarPorId(restauranteId)
-                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
 
         usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
 
         if (!restaurante.getProprietarioId().equals(usuarioId)) {
-            throw new RuntimeException("Usuário não tem permissão para incluir este prato.");
+            throw new ForbiddenException("Usuário não tem permissão para incluir este prato.");
         }
 
         Item item = itemMapper.fromDTO(dto);

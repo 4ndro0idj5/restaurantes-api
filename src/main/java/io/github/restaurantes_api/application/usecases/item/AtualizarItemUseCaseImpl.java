@@ -2,6 +2,8 @@ package io.github.restaurantes_api.application.usecases.item;
 
 import io.github.restaurantes_api.core.domain.entities.Item;
 import io.github.restaurantes_api.core.domain.entities.Restaurante;
+import io.github.restaurantes_api.core.domain.exceptions.ForbiddenException;
+import io.github.restaurantes_api.core.domain.exceptions.NotFoundException;
 import io.github.restaurantes_api.core.domain.usecases.item.AtualizarItemUseCase;
 import io.github.restaurantes_api.core.dtos.ItemUpdateDTO;
 import io.github.restaurantes_api.core.gateways.ItemGateway;
@@ -21,16 +23,16 @@ public class AtualizarItemUseCaseImpl implements AtualizarItemUseCase {
     @Override
     public void executar(Long restauranteId, ItemUpdateDTO dto, Long id, Long usuarioId) {
         Restaurante restaurante = restauranteGateway.buscarPorId(restauranteId)
-                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
 
         usuarioService.validarUsuarioAutenticado(restaurante.getProprietarioId());
 
         if (!restaurante.getProprietarioId().equals(usuarioId)) {
-            throw new RuntimeException("Usuário não tem permissão para atualizar este prato.");
+            throw new ForbiddenException("Usuário não tem permissão para atualizar este prato.");
         }
 
         Item item = itemGateway.buscarPorIdEPorRestauranteId(id, restauranteId)
-                .orElseThrow(() -> new RuntimeException("Item não encontrado."));
+                .orElseThrow(() -> new NotFoundException("Item não encontrado."));
 
         item.setNome(dto.getNome() != null ? dto.getNome() : item.getNome());
         item.setDescricao(dto.getDescricao() != null ? dto.getDescricao() : item.getDescricao());

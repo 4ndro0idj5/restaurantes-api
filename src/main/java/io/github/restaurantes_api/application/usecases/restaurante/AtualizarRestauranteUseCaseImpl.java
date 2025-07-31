@@ -2,6 +2,8 @@ package io.github.restaurantes_api.application.usecases.restaurante;
 
 import io.github.restaurantes_api.core.domain.entities.Endereco;
 import io.github.restaurantes_api.core.domain.entities.Restaurante;
+import io.github.restaurantes_api.core.domain.exceptions.ForbiddenException;
+import io.github.restaurantes_api.core.domain.exceptions.NotFoundException;
 import io.github.restaurantes_api.core.domain.usecases.restaurante.AtualizarRestauranteUseCase;
 import io.github.restaurantes_api.core.dtos.RestauranteUpdateDTO;
 import io.github.restaurantes_api.core.gateways.RestauranteGateway;
@@ -21,10 +23,10 @@ public class AtualizarRestauranteUseCaseImpl implements AtualizarRestauranteUseC
         usuarioService.validarUsuarioAutenticado(usuarioId);
 
         var restaurante = gateway.buscarPorId(restauranteId)
-                .orElseThrow(() -> new RuntimeException("Restaurante não encontrado"));
+                .orElseThrow(() -> new NotFoundException("Restaurante não encontrado"));
 
         if (!restaurante.getProprietarioId().equals(usuarioId)) {
-            throw new RuntimeException("Usuário não tem permissão para atualizar este restaurante");
+            throw new ForbiddenException("Usuário não tem permissão para atualizar este restaurante");
         }
 
         restaurante.setNome(dto.getNome() != null ? dto.getNome() : restaurante.getNome());
