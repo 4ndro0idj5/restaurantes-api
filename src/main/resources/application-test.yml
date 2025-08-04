@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: restaurantes-api
+
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  devtools:
+    restart:
+      enabled: false
+    livereload:
+      enabled: false
+
+api:
+  usuarios:
+    url: http://localhost:8081/api/v1/usuarios
