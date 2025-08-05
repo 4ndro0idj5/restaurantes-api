@@ -87,7 +87,7 @@ O projeto foi estruturado com base na **Clean Architecture**, garantindo:
 ## 🙋‍♂️ Autor
 
 **Anderson Argollo**  
-[LinkedIn](www.linkedin.com/in/andersonlargollo) 
+[LinkedIn](https://www.linkedin.com/in/andersonlargollo) 
 
 ---
 
